@@ -4,7 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
+
+import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,4 +29,8 @@ public class FileUploadService {
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
+    public void uploadFile(String keyName, MultipartFile file) throws IOException {
+        PutObjectResult putObjectResult = s3Client.putObject(bucketName, keyName, file.getInputStream(), null);
+        log.info(putObjectResult.getMetadata());
+    }
 }
