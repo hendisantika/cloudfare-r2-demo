@@ -3,8 +3,11 @@ package id.my.hendisantika.backend.controller;
 import id.my.hendisantika.backend.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,4 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class FileUploadController {
     private final FileUploadService fileUploadService;
 
+    @GetMapping
+    public String status() {
+        log.info("{} OK", LocalDateTime.now());
+        return LocalDateTime.now() + "OK";
+    }
 }
