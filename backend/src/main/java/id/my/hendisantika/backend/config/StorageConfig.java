@@ -1,4 +1,4 @@
-package id.my.hendisantika.backend.dto;
+package id.my.hendisantika.backend.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
