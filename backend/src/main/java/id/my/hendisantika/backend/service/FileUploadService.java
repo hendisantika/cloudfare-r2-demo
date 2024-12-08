@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.io.IOException;
 
@@ -32,5 +33,14 @@ public class FileUploadService {
     public void uploadFile(String keyName, MultipartFile file) throws IOException {
         PutObjectResult putObjectResult = s3Client.putObject(bucketName, keyName, file.getInputStream(), null);
         log.info(putObjectResult.getMetadata());
+    }
+
+    public S3Object getFile(String keyName) {
+        try {
+            return s3Client.getObject(bucketName, keyName);
+        } catch (AmazonS3Exception e) {
+            log.error(e);
+            return null;
+        }
     }
 }
