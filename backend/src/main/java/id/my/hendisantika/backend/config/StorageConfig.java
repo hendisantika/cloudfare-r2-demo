@@ -35,6 +35,10 @@ public class StorageConfig {
     @Value("${aws.region}")
     private String region;
 
+
+    @Value("${aws.bucket-name}")
+    private String bucketName;
+
     @Bean
     public S3Client s3Client() {
         AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKey, accessSecret);
