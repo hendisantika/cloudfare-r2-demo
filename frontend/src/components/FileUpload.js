@@ -68,7 +68,7 @@ function FileUpload() {
             >
                 <input {...getInputProps()} />
                 <p>
-                    Import files by dragging and dropping<strong>여기</strong>Click on
+                    Import files by dragging and dropping<strong>here</strong>Click on
                     Please select a file
                 </p>
             </div>
