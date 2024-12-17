@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Axios from "axios";
 
-import { useDropzone } from "react-dropzone";
+import {useDropzone} from "react-dropzone";
 
 const fileUploadEndpoint = process.env.REACT_APP_FILE_UPLOAD_ENDPOINT;
 const fileDownloadEndpoint = process.env.REACT_APP_FILE_DOWNLOAD_ENDPOINT;
@@ -53,7 +53,7 @@ function FileUpload() {
 
     return (
         <div>
-            <h1>스토리지 파일 업로드</h1>
+            <h1>Upload storage file</h1>
             <div
                 {...getRootProps()}
                 style={{
