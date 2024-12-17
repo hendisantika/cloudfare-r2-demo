@@ -1,5 +1,4 @@
-const React = require('react');
-
+import React from 'react';
 import FileUpload from './components/FileUpload';
 
 function App() {
