@@ -1,10 +1,7 @@
-const React = require("react");
-const {useState} = require("react");
-const {useDropzone} = require("react-dropzone");
-
+import React, { useState } from "react";
 import Axios from "axios";
 
-require("dotenv").config();
+import { useDropzone } from "react-dropzone";
 
 const fileUploadEndpoint = process.env.REACT_APP_FILE_UPLOAD_ENDPOINT;
 const fileDownloadEndpoint = process.env.REACT_APP_FILE_DOWNLOAD_ENDPOINT;
