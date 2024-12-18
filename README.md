@@ -86,3 +86,36 @@ CloudFare R2 Architecture
   fork the repository.
 
 https://github.com/hendisantika/cloudfare-r2-demo
+
+### Follow along
+
+Generate Cloudflare R2 API Token
+
+1. After logging in to Cloudflare, go to the R2 dashboard. Then, click the R2 API Token Management button under your
+   Account ID in the upper right corner.
+
+![CloudFare Object Storage](img/r2-object-storage.png "CloudFare Object Storage")
+
+2. Click the Generate API Token button in the upper right corner.
+
+![CloudFare Object Token](img/r2-token.png "CloudFare Object Storage Token")
+
+3. Name the token freely as you like and select Administrator Read and Write for the permissions. Select the desired
+   token activation period for TTL and press the Generate API Token button.
+4. Once token generation is complete, the account information and endpoint required for client use are displayed. In
+   this exercise, the S3 client access information and endpoint are used. If you leave the page, the authentication
+   information cannot be retrieved again, so store the values ​​in a safe place. The correspondence with AWS S3 is as
+   follows.
+   Access Key ID => AWS Access Key ID
+   Secret Access Key => AWS Secret Key
+   Endpoint => AWS S3 Endpoint URL
+
+![CloudFare Token](img/R2%20Object%20Storage_Token.png "CloudFare Token")
+
+### Create a Cloudflare R2 API Bucket
+
+1. Return to the R2 page in your dashboard and click the Create Bucket button.
+2. Enter an appropriate bucket name and the location will be automatically selected. Then press the Create Bucket
+   button.
+3. After bucket creation is complete, you can check the information by accessing the Settings tab as follows. The APAC
+   displayed in the Location field is used as the Region value in the S3 client.
