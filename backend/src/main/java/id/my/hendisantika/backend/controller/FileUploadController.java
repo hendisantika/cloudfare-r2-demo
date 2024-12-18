@@ -1,9 +1,11 @@
 package id.my.hendisantika.backend.controller;
 
+import com.amazonaws.services.s3.model.AmazonS3Exception;
 import id.my.hendisantika.backend.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +44,10 @@ public class FileUploadController {
         return LocalDateTime.now() + "OK";
     }
 
-    @GetMapping("/download/{fileName}")
-    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) {
+    @GetMapping("/v2/download/{fileName}")
+    public ResponseEntity<InputStreamResource> downloadFile2(@PathVariable String fileName) {
         try {
-            InputStream inputStream = fileUploadService.downloadFile(fileName);
+            InputStream inputStream = fileUploadService.downloadFileV2(fileName);
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
@@ -56,14 +58,27 @@ public class FileUploadController {
         }
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/v2/upload")
+    public ResponseEntity<String> uploadFile2(@RequestParam("file") MultipartFile file) {
         try {
             String keyName = file.getOriginalFilename();
-            fileUploadService.uploadFile(keyName, file.getInputStream(), file.getSize());
+            fileUploadService.uploadFileV2(keyName, file.getInputStream(), file.getSize());
             return ResponseEntity.ok("File uploaded successfully: " + keyName);
         } catch (IOException e) {
             return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
         }
+    }
+
+    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+        fileUploadService.uploadFile(file.getOriginalFilename(), file);
+        return "The file has been uploaded to storage.";
+    }
+
+    @GetMapping("/download/{fileName}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws AmazonS3Exception {
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(new InputStreamResource(fileUploadService.getFile(fileName).getObjectContent()));
     }
 }
