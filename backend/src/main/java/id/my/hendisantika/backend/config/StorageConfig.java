@@ -35,7 +35,6 @@ public class StorageConfig {
     @Value("${aws.region}")
     private String region;
 
-
     @Value("${aws.bucket-name}")
     private String bucketName;
 

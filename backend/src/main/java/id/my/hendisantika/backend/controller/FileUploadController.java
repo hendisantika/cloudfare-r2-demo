@@ -4,7 +4,7 @@ import id.my.hendisantika.backend.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 /**
@@ -42,15 +43,27 @@ public class FileUploadController {
     }
 
     @GetMapping("/download/{fileName}")
-    public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws AmazonS3Exception {
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(new InputStreamResource(fileUploadService.getFile(fileName).getObjectContent()));
+    public ResponseEntity<InputStreamResource> downloadFile(@PathVariable String fileName) {
+        try {
+            InputStream inputStream = fileUploadService.downloadFile(fileName);
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(new InputStreamResource(inputStream));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(null);
+        }
     }
 
-    @PostMapping(path = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public String uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        fileUploadService.uploadFile(file.getOriginalFilename(), file);
-        return "파일이 스토리지에 업로드 되었습니다.";
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            String keyName = file.getOriginalFilename();
+            fileUploadService.uploadFile(keyName, file.getInputStream(), file.getSize());
+            return ResponseEntity.ok("File uploaded successfully: " + keyName);
+        } catch (IOException e) {
+            return ResponseEntity.status(500).body("Error uploading file: " + e.getMessage());
+        }
     }
 }
