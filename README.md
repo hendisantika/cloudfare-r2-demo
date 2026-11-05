@@ -1,4 +1,12 @@
 # cloudfare-r2-demo
+
+[![CI](https://github.com/hendisantika/cloudfare-r2-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/hendisantika/cloudfare-r2-demo/actions/workflows/ci.yml)
+![Java](https://img.shields.io/badge/Java-25-orange?logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.16-6DB33F?logo=springboot)
+![Gradle](https://img.shields.io/badge/Gradle-9.8.2-02303A?logo=gradle)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
+![Dependabot](https://img.shields.io/badge/Dependabot-enabled-025E8C?logo=dependabot)
+
 CloudFare R2 Demo
 
 Implementing file upload/download functionality using Spring Boot, React and Cloudflare R2
@@ -70,16 +78,18 @@ CloudFare R2 Architecture
 ### Version information
 
 * Backend
-    * JDK v21
-    * Spring Boot 3.4.0
+    * JDK 25
+    * Spring Boot 3.5.16
+    * Gradle 9.8.2 (via the bundled Gradle wrapper)
+    * AWS SDK for Java (S3) v1 & v2
 * Frontend
-    * Node.js v20
-    * React v19.0.2
+    * Node.js 24 (LTS)
+    * pnpm 12
+    * React 19
 * Preparation
-    * Devices with JDK 17 or later installed
-    * Devices with Node.js version 18 installed
+    * Device with JDK 25 installed
+    * Device with Node.js 24 and pnpm 12 installed
     * GitHub account
-    * Cloud type account
     * Cloudflare Account
 * GitHub Repository
   The hands-on training will be done using the Spring Boot, React application in the repository below. Please clone or
@@ -119,3 +129,49 @@ Generate Cloudflare R2 API Token
    button.
 3. After bucket creation is complete, you can check the information by accessing the Settings tab as follows. The APAC
    displayed in the Location field is used as the Region value in the S3 client.
+
+### Configure & run the backend
+
+The backend reads its R2 settings from environment variables (see `backend/src/main/resources/application.yml`).
+Never commit real credentials — export them in your shell instead:
+
+```shell
+export AWS_S3_REGION=APAC
+export AWS_ACCESS_KEY=<R2 Access Key ID>
+export AWS_SECRET_KEY=<R2 Secret Access Key>
+export AWS_S3_BUCKET=<bucket name>
+export AWS_S3_ENDPOINT_URL=https://<account-id>.r2.cloudflarestorage.com
+
+cd backend
+./gradlew bootRun      # run the app
+./gradlew build        # compile + test (requires JDK 25)
+```
+
+### Run the frontend
+
+```shell
+cd frontend
+pnpm install --frozen-lockfile
+pnpm start             # dev server on http://localhost:3000
+pnpm run build         # production build
+```
+
+### Continuous Integration
+
+Every push and pull request to `main` runs the [CI workflow](.github/workflows/ci.yml) on GitHub Actions:
+
+| Job      | Toolchain                       | Steps                                            |
+|----------|---------------------------------|--------------------------------------------------|
+| Backend  | Temurin JDK 25, Gradle 9.8.2    | `./gradlew build` (compile + unit tests)         |
+| Frontend | Node.js 24, pnpm 12             | `pnpm install --frozen-lockfile`, `pnpm run build` |
+
+### Dependency updates (Dependabot)
+
+[Dependabot](.github/dependabot.yml) checks for updates every Monday at 06:00 (Asia/Jakarta) and opens grouped PRs:
+
+* **Gradle** (`/backend`) — Spring Boot, AWS SDK and other minor/patch updates are grouped.
+* **npm** (`/frontend`, pnpm lockfile) — React, production and development dependencies are grouped.
+* **GitHub Actions** — all action version bumps in a single PR.
+
+PRs are labelled (`dependencies`, `backend`, `frontend`, `github-actions`) and use conventional commit prefixes
+(`chore(deps)`, `chore(deps-dev)`, `ci(deps)`).
