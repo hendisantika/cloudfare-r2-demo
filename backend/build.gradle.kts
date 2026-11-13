@@ -26,7 +26,7 @@ repositories {
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.amazonaws:aws-java-sdk-s3:1.12.797")
-    implementation("software.amazon.awssdk:s3:2.57.8")
+    implementation("software.amazon.awssdk:s3:2.57.9")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
