@@ -24,8 +24,8 @@ importers:
         specifier: ^19.3.1
         version: 19.3.1(react@19.3.1)
       react-dropzone:
-        specifier: ^20.2.0
-        version: 20.2.0(react@19.3.1)
+        specifier: ^20.2.1
+        version: 20.2.1(react@19.3.1)
       react-scripts:
         specifier: 5.0.1
         version: 5.0.1(@babel/plugin-syntax-flow@7.26.0(@babel/core@7.26.0(supports-color@8.1.1)))(@babel/plugin-transform-react-jsx@7.25.9(@babel/core@7.26.0(supports-color@8.1.1))(supports-color@8.1.1))(@types/babel__core@7.20.5)(clean-css@5.3.3)(csso@4.2.0)(debug@4.4.0(supports-color@8.1.1))(eslint@8.57.1(supports-color@8.1.1))(react@19.3.1)(supports-color@8.1.1)(type-fest@0.21.3)(typescript@4.9.5)
@@ -4428,8 +4428,8 @@ packages:
     peerDependencies:
       react: ^19.3.1
 
-  react-dropzone@20.2.0:
-    resolution: {integrity: sha512-FRlcSp6UFT9Etg57U4+g6O6qF/jH7sUh2Hz67lQlrZJa/3FjfAFvw7DwDSItiG2vBUXTdh2wroEwXPPg7o/jkg==}
+  react-dropzone@20.2.1:
+    resolution: {integrity: sha512-8ldzI42a+iz6jlC5t0HoOO5ce65dU8ZGo8ZpesL2E57JByC8LBUieMrkGj97YYfgMaYKwkhpkfYxKOCKAekywA==}
     engines: {node: '>= 22'}
     peerDependencies:
       '@types/react': '*'
@@ -10739,7 +10739,7 @@ snapshots:
       react: 19.3.1
       scheduler: 0.28.0
 
-  react-dropzone@20.2.0(react@19.3.1):
+  react-dropzone@20.2.1(react@19.3.1):
     dependencies:
       attr-accept: 4.0.1
       file-selector: 5.0.2
